@@ -86,9 +86,22 @@ def get_next_student_number(course_code):
 
 def add_student():
     print("---------- ADD STUDENT ----------")
+
     name = input("Enter Student Name: ")
     age = input("Enter Student Age: ")
 
+    course = input("Enter Course: ")
+
+    course_code = get_course_code(course)
+    student_number = get_next_student_number(course_code)
+    student_id = generate_student_id(course_code, student_number)
+
+    print("Student ID:", student_id)
     print("Name:", name)
     print("Age:", age)
+    print("Course:", course)
 
+def save_student(student_id, name, age, course):
+    file = open("students.txt", "a")
+    file.write(student_id + "," + name + "," + age + "," + course + "\n")
+    file.close()
