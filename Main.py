@@ -1,6 +1,4 @@
-
-
-
+from Student import add_student
 
 print("="*50)
 print("\tSTUDENT RECORD MANAGEMENT SYSTEM")
@@ -17,6 +15,7 @@ while(True):
     choice = input("Enter Your choice [1-7]  : ")
     if(choice == ""):
         print("Choice cannot be blank")
+        continue
     try:
         choice = int(choice)
     except ValueError:
@@ -28,7 +27,7 @@ while(True):
     elif (choice == 0):
         print("Invalid choice please enter between 1-7")
     elif (choice == 1):
-        print("Add")
+        add_student()
     elif (choice == 2):
         print("View")
     elif (choice == 3):
