@@ -1,107 +1,214 @@
-import random
+class Student:
 
-def generate_student_id(course_code, student_number):
-    student_id = str(course_code) + str(student_number).zfill(4) #zfill add input numbers of 0 to make it separated
-    return student_id
+    def __init__(self, student_id, name, age, course, semester,
+                 email, phone, cgpa, percentage_12th, gender):
 
-def load_courses():
-    courses = {}
+        self.student_id = student_id
+        self.name = name
+        self.age = age
+        self.course = course
+        self.semester = semester
+        self.email = email
+        self.phone = phone
+        self.cgpa = cgpa
+        self.percentage_12th = percentage_12th
+        self.gender = gender
 
-    try:
-        file = open("courses.txt", "r")
-        for line in file:
-            line = line.strip()
 
-            if line == "":
-                continue
-
-            course, code = line.split(",")
-            courses[course] = int(code)
-
-        file.close()
-
-    except FileNotFoundError:
-        file = open("courses.txt", "w")
-        file.close()
-
-    return courses
-
-def generate_course_code(courses):
+def get_name():
     while True:
-        code = random.randint(1, 99)
+        name = input("Enter Student Name: ").strip()
 
-        if code not in courses.values():
-            return code
+        if name == "":
+            print("Name cannot be blank.")
+        elif not name.replace(" ", "").isalpha():
+            print("Name must contain only letters.")
+        else:
+            return name
 
-def save_course(course, code):
-    file = open("courses.txt", "a")
-    file.write(course + "," + str(code) + "\n")
-    file.close()
 
-def get_course_code(course):
-    courses = load_courses()
+def get_age():
+    while True:
+        age_input = input("Enter Age: ").strip()
 
-    if course in courses:
-        return courses[course]
+        if age_input == "":
+            print("Age cannot be blank.")
+            continue
 
-    code = generate_course_code(courses)
-    save_course(course, code)
+        try:
+            age = int(age_input)
 
-    return code
+            if age <= 0:
+                print("Age must be greater than 0.")
+            elif age > 100:
+                print("Please enter a valid age.")
+            else:
+                return age
 
-def get_next_student_number(course_code):
-    counters = {}
+        except ValueError:
+            print("Please enter a valid number.")
 
-    try:
-        file = open("student_counters.txt", "r")
 
-        for line in file:
-            line = line.strip()
+def get_course():
+    while True:
+        course = input("Enter Course: ").strip()
 
-            if line == "":
-                continue
+        if course == "":
+            print("Course cannot be blank.")
+        else:
+            return course
 
-            code, number = line.split(",")
-            counters[int(code)] = int(number)
 
-        file.close()
+def get_semester():
+    while True:
+        semester_input = input("Enter Semester [1-8]: ").strip()
 
-    except FileNotFoundError:
-        file = open("student_counters.txt", "w")
-        file.close()
+        if semester_input == "":
+            print("Semester cannot be blank.")
+            continue
 
-    if course_code in counters:
-        counters[course_code] = counters[course_code] + 1
-    else:
-        counters[course_code] = 1
+        try:
+            semester = int(semester_input)
 
-    file = open("student_counters.txt", "w")
+            if semester < 1 or semester > 8:
+                print("Semester must be between 1 and 8.")
+            else:
+                return semester
 
-    for code, number in counters.items():
-        file.write(str(code) + "," + str(number) + "\n")
+        except ValueError:
+            print("Please enter a valid number.")
 
-    file.close()
 
-    return counters[course_code]
+def get_email():
+    while True:
+        email = input("Enter Email: ").strip()
+
+        if email == "":
+            print("Email cannot be blank.")
+        elif " " in email:
+            print("Email cannot contain spaces.")
+        elif email.count("@") != 1:
+            print("Email must contain exactly one @.")
+        elif email.startswith("@") or email.endswith("@"):
+            print("Invalid email address.")
+        elif "." not in email.split("@")[1]:
+            print("Email must contain a domain.")
+        elif email.startswith(".") or email.endswith("."):
+            print("Invalid email address.")
+        else:
+            return email
+
+
+def get_phone():
+    while True:
+        phone = input("Enter Phone Number: ").strip()
+
+        if phone == "":
+            print("Phone cannot be blank.")
+        elif not phone.isdigit():
+            print("Phone must contain only numbers.")
+        elif len(phone) != 10:
+            print("Phone number must contain 10 digits.")
+        else:
+            return phone
+
+
+def get_cgpa():
+    while True:
+        cgpa_input = input("Enter CGPA: ").strip()
+
+        if cgpa_input == "":
+            print("CGPA cannot be blank.")
+            continue
+
+        try:
+            cgpa = float(cgpa_input)
+
+            if cgpa < 0 or cgpa > 10:
+                print("CGPA must be between 0 and 10.")
+            else:
+                return cgpa
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+
+def get_12th_percentage():
+    while True:
+        percentage_input = input("Enter 12th Percentage: ").strip()
+
+        if percentage_input == "":
+            print("12th Percentage cannot be blank.")
+            continue
+
+        try:
+            percentage = float(percentage_input)
+
+            if percentage < 0 or percentage > 100:
+                print("Percentage must be between 0 and 100.")
+            else:
+                return percentage
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+
+def get_gender():
+    while True:
+        print("\nSelect Gender:")
+        print("1. Male")
+        print("2. Female")
+        print("3. Other")
+
+        choice = input("Enter your choice [1-3]: ").strip()
+
+        if choice == "":
+            print("Gender choice cannot be blank.")
+            continue
+
+        if choice == "1":
+            return "Male"
+        elif choice == "2":
+            return "Female"
+        elif choice == "3":
+            return "Other"
+        else:
+            print("Please select a valid option.")
+
 
 def add_student():
-    print("---------- ADD STUDENT ----------")
+    print("\n" + "=" * 40)
+    print("          ADD STUDENT")
+    print("=" * 40)
 
-    name = input("Enter Student Name: ")
-    age = input("Enter Student Age: ")
+    # Student ID will be generated by the program later
 
-    course = input("Enter Course: ")
+    name = get_name()
+    age = get_age()
+    course = get_course()
+    semester = get_semester()
+    email = get_email()
+    phone = get_phone()
+    cgpa = get_cgpa()
 
-    course_code = get_course_code(course)
-    student_number = get_next_student_number(course_code)
-    student_id = generate_student_id(course_code, student_number)
+    if semester == 1:
+        percentage_12th = get_12th_percentage()
+    else:
+        percentage_12th = None
 
-    print("Student ID:", student_id)
-    print("Name:", name)
-    print("Age:", age)
-    print("Course:", course)
+    gender = get_gender()
 
-def save_student(student_id, name, age, course):
-    file = open("students.txt", "a")
-    file.write(student_id + "," + name + "," + age + "," + course + "\n")
-    file.close()
+    student = Student(
+        None,
+        name,
+        age,
+        course,
+        semester,
+        email,
+        phone,
+        cgpa,
+        percentage_12th,
+        gender
+    )
+
+    return student

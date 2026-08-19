@@ -1,5 +1,7 @@
 from Student import add_student
 
+students = []
+
 print("="*50)
 print("\tSTUDENT RECORD MANAGEMENT SYSTEM")
 print("="*50)
@@ -24,10 +26,11 @@ while(True):
 
     if (choice <0):
         print("Number must be grater than 0")
-    elif (choice == 0):
+    elif (choice == 0 or choice == 00):
         print("Invalid choice please enter between 1-7")
     elif (choice == 1):
-        add_student()
+        student = add_student()
+        students.append(student)
     elif (choice == 2):
         print("View")
     elif (choice == 3):
